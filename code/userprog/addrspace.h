@@ -44,6 +44,8 @@ class AddrSpace {
     void InitRegisters();		// Initialize user-level CPU registers,
 					// before jumping to user code
 
+    // virtual memory
+    char *virMem;
 };
 
 #endif // ADDRSPACE_H

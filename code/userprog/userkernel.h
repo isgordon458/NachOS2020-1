@@ -16,6 +16,38 @@
 #include "filesys.h"
 #include "machine.h"
 #include "synchdisk.h"
+/*
+class SynchDiskManager{
+  bool bitMap[NumSectors];
+  int nextEmptySector = 0;
+public:
+  SynchDiskManager(){
+    for(bool bit: bitMap) bit=false;
+  }
+
+  int getEmptySector() {
+
+    int searchEnd = nextEmptySector;
+    do{
+      if(bitMap[nextEmptySector]==false) {
+        bitMap[nextEmptySector]=true;
+        return nextEmptySector;
+      }else
+        nextEmptySector = (nextEmptySector+1)%NumSectors;
+      
+    }while(nextEmptySector!=searchEnd);
+
+    cout << "Error:" << endl
+         << "Disk is full" << endl;
+    
+    ASSERTNOTREACHED();
+  }
+  void setEmptySector(int sector) {
+    ASSERT(0<=sector && sector < NumSectors);
+    bitMap[sector] = false;
+  }
+};
+*/
 class SynchDisk;
 class UserProgKernel : public ThreadedKernel {
   public:
@@ -35,6 +67,7 @@ class UserProgKernel : public ThreadedKernel {
 
 #ifdef FILESYS
     SynchDisk *synchDisk;
+    //SynchDiskManager *synchDiskMnager;
 #endif // FILESYS
 
   private:
@@ -42,6 +75,9 @@ class UserProgKernel : public ThreadedKernel {
 	Thread* t[10];
 	char*	execfile[10];
 	int	execfileNum;
+
+  public:
+    int getExecFileNum() {return execfileNum;}
 };
 
 #endif //USERKERNEL_H

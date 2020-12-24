@@ -89,7 +89,7 @@ ExceptionHandler(ExceptionType which)
 	    break;
 	default:
 	    cerr << "Unexpected user mode exception" << which << "\n";
-	    break;
+		break;
     }
     ASSERTNOTREACHED();
 }
