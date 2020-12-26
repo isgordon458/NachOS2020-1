@@ -1616,7 +1616,7 @@ addrspace.o: ../userprog/addrspace.cc /usr/include/stdc-predef.h \
  ../machine/callback.h ../machine/stats.h ../threads/alarm.h \
  ../machine/callback.h ../machine/timer.h ../filesys/synchdisk.h \
  ../machine/disk.h ../threads/synch.h ../threads/main.h \
- ../userprog/addrspace.h ../bin/noff.h
+ ../userprog/addrspace.h ../bin/noff.h /usr/include/c++/4.8/cstring
 exception.o: ../userprog/exception.cc /usr/include/stdc-predef.h \
  ../lib/copyright.h ../threads/main.h ../lib/debug.h ../lib/copyright.h \
  ../lib/utility.h ../lib/sysdep.h /usr/include/c++/4.8/iostream \

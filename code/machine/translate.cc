@@ -236,15 +236,15 @@ Machine::Translate(int virtAddr, int* physAddr, int size, bool writing)
 
     // if the pageFrame is too big, there is something really wrong! 
     // An invalid translation was loaded into the page table or TLB. 
-    if (pageFrame >= NumPhysPages) { 
-	DEBUG(dbgAddr, "Illegal pageframe " << pageFrame);
-	return BusErrorException;
-    }
+    // if (pageFrame >= NumPhysPages) { 
+	// DEBUG(dbgAddr, "Illegal pageframe " << pageFrame);
+	// return BusErrorException;
+    // }
     entry->use = TRUE;		// set the use, dirty bits
     if (writing)
 	entry->dirty = TRUE;
     *physAddr = pageFrame * PageSize + offset;
-    ASSERT((*physAddr >= 0) && ((*physAddr + size) <= MemorySize));
+    // ASSERT((*physAddr >= 0) && ((*physAddr + size) <= MemorySize));
     DEBUG(dbgAddr, "phys addr = " << *physAddr);
     return NoException;
 }

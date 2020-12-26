@@ -21,6 +21,8 @@
 #include "machine.h"
 #include "noff.h"
 
+#include <cstring>
+
 //----------------------------------------------------------------------
 // SwapHeader
 // 	Do little endian to big endian conversion on the bytes in the 
@@ -121,33 +123,40 @@ AddrSpace::Load(char *fileName)
 //	cout << "number of pages of " << fileName<< " is "<<numPages<<endl;
     size = numPages * PageSize;
 
-    int numPageGet = NumPhysPages/kernel->getExecFileNum();
+    //  duplicate
+    //numPages = divRoundUp(size,PageSize);
 
-    numPages = divRoundUp(size,PageSize);
-    for(unsigned int i=0, j=0, k=0 ; (i<numPages)&& (k<numPageGet); i++){
+//  initialize page table
+
+    for(unsigned int i=0; i<numPages; i++){
+
         pageTable[i].virtualPage = i;
-        
-        while(j<NumPhysPages && AddrSpace::usedPhyPage[j] == true)
-             j++;
-        ASSERT(!(j==NumPhysPages && k<numPageGet));
-
-        if (k < numPageGet)
-        {
-            AddrSpace::usedPhyPage[j] = true;
-            pageTable[i].physicalPage = k;
-
-            pageTable[i].valid = true;
-        }
-        else
-        {
-            pageTable[i].valid = false;
-        }
+        pageTable[i].valid = false;
         pageTable[i].use = false;
         pageTable[i].dirty = false;
         pageTable[i].readOnly = false;
     }
+ 
+    //  number of frames which a thread can get
+    int numFrame = divRoundDown(NumPhysPages ,kernel->getExecFileNum());
 
-    size = numPages * PageSize;
+    //  bring some page to main memory
+    for(unsigned int i=0,j=0; i<numFrame; i++){
+        
+        //  find next free frame
+        while (j < NumPhysPages && AddrSpace::usedPhyPage[j] == true)
+           j++;
+        
+        ASSERT(j!=NumPhysPages);
+
+        AddrSpace::usedPhyPage[j] = true;
+        
+        pageTable[i].valid = true;
+        pageTable[i].physicalPage = j;
+    }
+
+    //  duplicate
+    //size = numPages * PageSize;
 
 //     ASSERT(numPages <= NumPhysPages);		// check we're not trying
 // 						// to run anything too big --
@@ -173,7 +182,7 @@ AddrSpace::Load(char *fileName)
 //     }
 
 // copy the code and data segments into virtual memory(virMem)
-    virMem = new char[numPages*PageSize];
+    virMem = new char[size];
 
 	if (noffH.code.size > 0) {
         DEBUG(dbgAddr, "Initializing code segment(to virtual memory)");
@@ -192,6 +201,14 @@ AddrSpace::Load(char *fileName)
             noffH.initData.inFileAddr);
     }
 
+//  then, copy some virtual pages to main memory
+
+    for(int i=0; i< numPages; i++){
+        if(pageTable[i].valid)
+            memcpy(&(kernel->machine->mainMemory[pageTable[i].physicalPage * PageSize]),
+                &(virMem[i * PageSize]), 
+                PageSize);
+    }
 
     delete executable;			// close file
     return TRUE;			// success
