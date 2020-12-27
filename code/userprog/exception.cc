@@ -84,9 +84,42 @@ ExceptionHandler(ExceptionType which)
  		    break;
 	    }
 	    break;
+		
+
 	case PageFaultException:
+	
+#ifdef FILESYS
+	{
+		static int victim = 0;
+		unsigned int virPage = divRoundDown(kernel->machine->ReadRegister(BadVAddrReg), PageSize);
+		//writ to disk
+		kernel->synchDisk->WriteSector(kernel->machine->pageTable[victim].diskSector, &(kernel->machine->mainMemory[victim*PageSize]));
+
+		//memcpy( &(kernel->currentThread->space->virMem[virPage*PageSize]), &(kernel->machine->mainMemory[victim*PageSize]), PageSize);
+		//adjust page table of victim
+		kernel->machine->pageTable[victim].valid = false;
+		//adjust page table of virPage
+
+		kernel->machine->pageTable[virPage].valid = true;
+		kernel->machine->pageTable[virPage].physicalPage = kernel->machine->pageTable[victim].physicalPage;
+
+		//read from disk
+		char *incomingPageData;
+		kernel->synchDisk->ReadSector(kernel->machine->pageTable[virPage].diskSector, incomingPageData);
+		memcpy(&(kernel->machine->mainMemory[victim*PageSize]), incomingPageData, PageSize);
+		
+		//restart
+		kernel->machine->WriteRegister(PCReg,kernel->machine->ReadRegister(PCReg) - 4);
+
+		//kernel->currentThread->Sleep(false);
 		/*    Page Fault Exception    */
-	    break;
+	}
+#else
+		cerr << "FILESYS not define" << "\n";
+#endif
+	return;
+	
+
 	default:
 	    cerr << "Unexpected user mode exception" << which << "\n";
 		break;

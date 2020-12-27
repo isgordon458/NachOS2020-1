@@ -16,16 +16,23 @@
 #include "filesys.h"
 #include "machine.h"
 #include "synchdisk.h"
-/*
+
 class SynchDiskManager{
   bool bitMap[NumSectors];
   int nextEmptySector = 0;
+  int emptySector = NumSectors;
+
 public:
   SynchDiskManager(){
-    for(bool bit: bitMap) bit=false;
+    for(int i=0; i<NumSectors; i++) bitMap[i] = false;
   }
 
+  int numEmptySec() {return emptySector;}
+
   int getEmptySector() {
+
+    emptySector--;
+    ASSERT(emptySector >= 0);
 
     int searchEnd = nextEmptySector;
     do{
@@ -47,7 +54,7 @@ public:
     bitMap[sector] = false;
   }
 };
-*/
+
 class SynchDisk;
 class UserProgKernel : public ThreadedKernel {
   public:
@@ -67,7 +74,7 @@ class UserProgKernel : public ThreadedKernel {
 
 #ifdef FILESYS
     SynchDisk *synchDisk;
-    //SynchDiskManager *synchDiskMnager;
+    SynchDiskManager *synchDiskMnager;
 #endif // FILESYS
 
   private:
