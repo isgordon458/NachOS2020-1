@@ -121,7 +121,7 @@ ExceptionHandler(ExceptionType which)
 
 		//read from disk
 		char *incomingPageData= new char[PageSize];
-		cout<<"read sector: "<<kernel->machine->pageTable[virPage].diskSector<<endl;
+		//cout<<"read sector: "<<kernel->machine->pageTable[virPage].diskSector<<endl;
 		kernel->synchDisk->ReadSector(kernel->machine->pageTable[virPage].diskSector, incomingPageData);
 		memcpy(&(kernel->machine->mainMemory[victim*PageSize]), incomingPageData, PageSize);
 		

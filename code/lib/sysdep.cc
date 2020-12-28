@@ -32,7 +32,7 @@
 #include "sys/file.h"
 #include <sys/socket.h>
 #include <sys/un.h>
-
+#include <errno.h>
 #ifdef LINUX	 // at this point, linux doesn't support mprotect 
 #define NO_MPROT     
 #endif
@@ -317,6 +317,8 @@ void
 Lseek(int fd, int offset, int whence)
 {
     int retVal = lseek(fd, offset, whence);
+    if(retVal<0)
+        cout << errno;
     ASSERT(retVal >= 0);
 }
 

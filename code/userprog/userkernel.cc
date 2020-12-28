@@ -102,16 +102,33 @@ UserProgKernel::Run()
 	// 	cout << "Thread " << execfile[n] << " is executing." << endl;
 	// }
 
-	IntStatus old = kernel->interrupt->SetLevel(IntOff);
 
-	for (int n=1;n<=execfileNum;n++)
 	{
-		t[n] = new Thread(execfile[n]);
-		t[n]->space = new AddrSpace();
-		t[n]->space->LoadThread(t[n]->getName());
+		int j = 0;
+	
+		IntStatus old = kernel->interrupt->SetLevel(IntOff);
+
+		for (int n = 1; n <= execfileNum; n++)
+		{
+			t[n] = new Thread(execfile[n]);
+			t[n]->space = new AddrSpace();
+
+			if (t[n]->space->LoadThread(t[n]->getName()) == false)
+			{
+				delete t[n];
+				continue;
+			}
+
+			j++;
+
+			if (n != j)
+				t[j] = t[n];
+		}
+		kernel->interrupt->SetLevel(old);
+		execfileNum = j;
 	}
 
-	kernel->interrupt->SetLevel(old);
+	cout << "Total runnable threads number is " << execfileNum << endl;
 
 	for (int n=1;n<=execfileNum;n++)
 	{
