@@ -92,5 +92,9 @@ SynchDisk::WriteSector(int sectorNumber, char* data)
 void
 SynchDisk::CallBack()
 { 
-    semaphore->V();
+    if(!initialize)
+        semaphore->V();
+    else
+        initialize = false;
+    //semaphore->V();
 }

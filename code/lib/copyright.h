@@ -23,7 +23,7 @@ PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 static char *copyright = "Copyright (c) 1992-1993 The Regents of the University of California.  All rights reserved.";
 #endif // MAIN
 
-#define THREADS 
-#define USER_PROGRAM 
-#define FILESYS_NEEDED 
-#define FILESYS_STUB
+// #define THREADS 
+//#define USER_PROGRAM 
+// #define FILESYS_NEEDED 
+// #define FILESYS_STUB

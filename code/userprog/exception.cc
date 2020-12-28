@@ -25,6 +25,21 @@
 #include "main.h"
 #include "syscall.h"
 
+class VictimSelector{
+	int fifoCount=0;
+	//char st;
+public:	
+	//static enum status {FIFO, LRU};
+	VictimSelector(){}//st = FIFO;}
+	int get(){
+		int ret = fifoCount;
+		fifoCount = (fifoCount + 1) % NumPhysPages;
+		return ret;
+	}
+};
+
+static VictimSelector *vicSelctor = new VictimSelector;
+
 //----------------------------------------------------------------------
 // ExceptionHandler
 // 	Entry point into the Nachos kernel.  Called when a user program
@@ -87,24 +102,26 @@ ExceptionHandler(ExceptionType which)
 		
 
 	case PageFaultException:
-	
-#ifdef FILESYS
 	{
-		static int victim = 0;
+		int victim = vicSelctor->get();
 		unsigned int virPage = divRoundDown(kernel->machine->ReadRegister(BadVAddrReg), PageSize);
 		//writ to disk
-		kernel->synchDisk->WriteSector(kernel->machine->pageTable[victim].diskSector, &(kernel->machine->mainMemory[victim*PageSize]));
+
+		if (AddrSpace::usedPhyPage[victim]) {
+			kernel->synchDisk->WriteSector(AddrSpace::invertedPageTable[victim]->diskSector, &(kernel->machine->mainMemory[victim * PageSize]));
 
 		//memcpy( &(kernel->currentThread->space->virMem[virPage*PageSize]), &(kernel->machine->mainMemory[victim*PageSize]), PageSize);
 		//adjust page table of victim
-		kernel->machine->pageTable[victim].valid = false;
+			AddrSpace::invertedPageTable[victim]->valid = false;
 		//adjust page table of virPage
-
+		}
 		kernel->machine->pageTable[virPage].valid = true;
-		kernel->machine->pageTable[virPage].physicalPage = kernel->machine->pageTable[victim].physicalPage;
+		kernel->machine->pageTable[virPage].physicalPage = victim;
+		AddrSpace::invertedPageTable[victim] = &(kernel->machine->pageTable[virPage]);
 
 		//read from disk
-		char *incomingPageData;
+		char *incomingPageData= new char[PageSize];
+		cout<<"read sector: "<<kernel->machine->pageTable[virPage].diskSector<<endl;
 		kernel->synchDisk->ReadSector(kernel->machine->pageTable[virPage].diskSector, incomingPageData);
 		memcpy(&(kernel->machine->mainMemory[victim*PageSize]), incomingPageData, PageSize);
 		
@@ -113,12 +130,8 @@ ExceptionHandler(ExceptionType which)
 
 		//kernel->currentThread->Sleep(false);
 		/*    Page Fault Exception    */
-	}
-#else
-		cerr << "FILESYS not define" << "\n";
-#endif
-	return;
-	
+		return;
+	}	
 
 	default:
 	    cerr << "Unexpected user mode exception" << which << "\n";

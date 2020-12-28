@@ -44,12 +44,32 @@ class SynchDisk : public CallBackObj {
 					// handler, to signal that the
 					// current disk operation is complete.
 
+
+
+    //  similar to WriteSector, but won't suspend any thread
+    //  used at the load time(addrSpace::Load())
+    //  Note: it can be used when the user thread is loaded ONLY.
+    void IntializeSector(int sectorNumber, char *data) 
+    {
+      initialize = true;
+      disk->WriteRequest(sectorNumber, data);
+    }
+
+    void ReadIntializeSector(int sectorNumber, char *data) 
+    {
+      initialize = true;
+      disk->ReadRequest(sectorNumber, data);
+    }
+
   private:
     Disk *disk;		  		// Raw disk device
     Semaphore *semaphore; 		// To synchronize requesting thread 
 					// with the interrupt handler
     Lock *lock;		  		// Only one read/write request
 					// can be sent to the disk at a time
+
+    bool initialize = false;
+
 };
 
 #endif // SYNCHDISK_H

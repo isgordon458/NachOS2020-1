@@ -25,6 +25,7 @@ class AddrSpace {
     ~AddrSpace();			// De-allocate an address space
 
     static bool usedPhyPage[NumPhysPages];
+    static TranslationEntry *invertedPageTable[NumPhysPages];
 
     void Execute(char *fileName);	// Run the the program
 					// stored in the file "executable"
@@ -32,8 +33,7 @@ class AddrSpace {
     void SaveState();			// Save/restore address space-specific
     void RestoreState();		// info on a context switch 
 
-    // virtual memory
-    //  char *virMem;
+    bool LoadThread(char *fileName);
 
   private:
     TranslationEntry *pageTable;	// Assume linear page table translation

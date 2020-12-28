@@ -32,6 +32,7 @@
 
 
 bool AddrSpace::usedPhyPage[NumPhysPages] = {0};
+TranslationEntry *AddrSpace::invertedPageTable[NumPhysPages] = {NULL};
 
 static void 
 SwapHeader (NoffHeader *noffH)
@@ -140,25 +141,24 @@ AddrSpace::Load(char *fileName)
     //  duplicate
     //size = numPages * PageSize;
 
-#ifdef FILESYS
 
     //  number of frames which a thread can get
     int numFrame = divRoundDown(NumPhysPages ,kernel->getExecFileNum());
 
-    //  bring some page to main memory
-    for(unsigned int i=0,j=0; i<numFrame; i++){
+    // //  bring some page to main memory
+    // for(unsigned int i=0,j=0; i<numFrame; i++){
         
-        //  find next free frame
-        while (j < NumPhysPages && AddrSpace::usedPhyPage[j] == true)
-           j++;
+    //     //  find next free frame
+    //     while (j < NumPhysPages && AddrSpace::usedPhyPage[j] == true)
+    //        j++;
         
-        ASSERT(j!=NumPhysPages);
+    //     ASSERT(j!=NumPhysPages);
 
-        AddrSpace::usedPhyPage[j] = true;
+    //     AddrSpace::usedPhyPage[j] = true;
         
-        pageTable[i].valid = true;
-        pageTable[i].physicalPage = j;
-    }
+    //     pageTable[i].valid = true;
+    //     pageTable[i].physicalPage = j;
+    // }
 
     // copy the code and data segments into virtual memory(virMem)
     char *virMem = new char[size];
@@ -191,16 +191,28 @@ AddrSpace::Load(char *fileName)
 
     ASSERT(kernel->synchDiskMnager->numEmptySec() >= numPages);
 
-    for(int i=0, j; i<numPages; i++) {
+
+//  copy entire program to disk
+
+    ASSERT(kernel->synchDiskMnager->numEmptySec() >= numPages);
+
+    for(int i=0, j; i<numPages; i++) {    
+        
+        cout <<endl << "(" << i << ","<< numPages << ")";
+
         j = kernel->synchDiskMnager->getEmptySector();
-        kernel->currentThread->space->pageTable[i].diskSector = j;
-        kernel->synchDisk->WriteSector(j, &(virMem[i*PageSize]));
-        kernel->interrupt->Idle();
+        this->pageTable[i].diskSector = j;
+        kernel->synchDisk->IntializeSector(j, &(virMem[i*PageSize]));
+        while(kernel->interrupt->AnyFutureInterrupts())
+            kernel->interrupt->Idle();
+
+        /*->synchDisk->ReadIntializeSector(j, &(virMem[i*PageSize]));
+        while(kernel->interrupt->AnyFutureInterrupts())
+            kernel->interrupt->Idle();*/
     }
 
     delete[] virMem;
 
-#else
 
 //     ASSERT(numPages <= NumPhysPages);		// check we're not trying
 // 						// to run anything too big --
@@ -240,7 +252,6 @@ AddrSpace::Load(char *fileName)
 // 			noffH.initData.size, noffH.initData.inFileAddr);
 //     }
 
-#endif
 
     delete executable;			// close file
     return TRUE;			// success
@@ -257,10 +268,14 @@ AddrSpace::Load(char *fileName)
 void 
 AddrSpace::Execute(char *fileName) 
 {
-    if (!Load(fileName)) {
-	cout << "inside !Load(FileName)" << endl;
-	return;				// executable not found
-    }
+    // IntStatus old = kernel->interrupt->SetLevel(IntOff);
+
+    // if (!Load(fileName)) {
+	// cout << "inside !Load(FileName)" << endl;
+	// return;				// executable not found
+    // }
+
+    // kernel->interrupt->SetLevel(old);
 
     //kernel->currentThread->space = this;
     this->InitRegisters();		// set the initial register values
@@ -335,4 +350,16 @@ void AddrSpace::RestoreState()
     kernel->machine->pageTable = pageTable;
     kernel->machine->pageTableSize = numPages;
     //  kernel->machine->mainMemory = virMem;
+}
+
+bool AddrSpace::LoadThread(char *fileName)
+{
+    
+    if (!Load(fileName))
+    {
+        cout << "inside !Load(FileName)" << endl;
+        return false; // executable not found
+    }else
+        return true;
+
 }

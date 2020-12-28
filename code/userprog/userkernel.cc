@@ -58,9 +58,10 @@ UserProgKernel::Initialize()
 
     machine = new Machine(debugUserProg);
     fileSystem = new FileSystem();
-#ifdef FILESYS
+//#ifdef FILESYS
     synchDisk = new SynchDisk("New SynchDisk");
-#endif // FILESYS
+	synchDiskMnager = new SynchDiskManager;
+//#endif // FILESYS
 }
 
 //----------------------------------------------------------------------
@@ -93,13 +94,31 @@ UserProgKernel::Run()
 {
 
 	cout << "Total threads number is " << execfileNum << endl;
+	// for (int n=1;n<=execfileNum;n++)
+	// 	{
+	// 	t[n] = new Thread(execfile[n]);
+	// 	t[n]->space = new AddrSpace();
+	// 	t[n]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[n]);
+	// 	cout << "Thread " << execfile[n] << " is executing." << endl;
+	// }
+
+	IntStatus old = kernel->interrupt->SetLevel(IntOff);
+
 	for (int n=1;n<=execfileNum;n++)
-		{
+	{
 		t[n] = new Thread(execfile[n]);
 		t[n]->space = new AddrSpace();
+		t[n]->space->LoadThread(t[n]->getName());
+	}
+
+	kernel->interrupt->SetLevel(old);
+
+	for (int n=1;n<=execfileNum;n++)
+	{
 		t[n]->Fork((VoidFunctionPtr) &ForkExecute, (void *)t[n]);
 		cout << "Thread " << execfile[n] << " is executing." << endl;
-		}
+	}
+
 //	Thread *t1 = new Thread(execfile[1]);
 //	Thread *t1 = new Thread("../test/test1");
 //	Thread *t2 = new Thread("../test/test2");
