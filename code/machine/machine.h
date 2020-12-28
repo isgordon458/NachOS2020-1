@@ -131,6 +131,7 @@ class Machine {
 
     TranslationEntry *pageTable;
     unsigned int pageTableSize;
+	unsigned int last_use_frame;
     bool ReadMem(int addr, int size, int* value);
   private:
 

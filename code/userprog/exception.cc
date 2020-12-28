@@ -24,6 +24,7 @@
 #include "copyright.h"
 #include "main.h"
 #include "syscall.h"
+#include "translate.h"
 
 class VictimSelector{
 	int fifoCount=0;
@@ -31,10 +32,38 @@ class VictimSelector{
 public:	
 	//static enum status {FIFO, LRU};
 	VictimSelector(){}//st = FIFO;}
-	int get(){
+	int getFIFO(){
+		if (fifoCount == kernel->machine->last_use_frame) {
+			fifoCount = (fifoCount + 1) % NumPhysPages;
+		}
 		int ret = fifoCount;
 		fifoCount = (fifoCount + 1) % NumPhysPages;
 		return ret;
+	}
+	
+	int getLRU() {
+		int min;
+		int index;
+		for (int i = 0; i < NumPhysPages; i++) {
+			if (!AddrSpace::usedPhyPage[i]) {
+				return i;
+			}
+			else if(!AddrSpace::invertedPageTable[i]->valid){
+				return i;
+			}
+			else {
+				if (i == 0) {
+					min = AddrSpace::invertedPageTable[i]->last_use;
+					index = 0;
+				}
+				else if(AddrSpace::invertedPageTable[i]->last_use < min){
+					min = AddrSpace::invertedPageTable[i]->last_use;
+					index = i;
+				}
+			}
+		}
+
+		return index;
 	}
 };
 
@@ -103,7 +132,7 @@ ExceptionHandler(ExceptionType which)
 
 	case PageFaultException:
 	{
-		int victim = vicSelctor->get();
+		int victim = vicSelctor->getLRU();
 		unsigned int virPage = divRoundDown(kernel->machine->ReadRegister(BadVAddrReg), PageSize);
 		//writ to disk
 
@@ -118,6 +147,11 @@ ExceptionHandler(ExceptionType which)
 		kernel->machine->pageTable[virPage].valid = true;
 		kernel->machine->pageTable[virPage].physicalPage = victim;
 		AddrSpace::invertedPageTable[victim] = &(kernel->machine->pageTable[virPage]);
+		kernel->machine->last_use_frame = victim;
+		kernel->machine->pageTable[virPage].last_use= TranslationEntry::time;
+		TranslationEntry::time++;
+
+		AddrSpace::usedPhyPage[victim] = true;
 
 		//read from disk
 		char *incomingPageData= new char[PageSize];

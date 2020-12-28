@@ -31,10 +31,13 @@
 
 #include "copyright.h"
 #include "main.h"
+#include "translate.h"
 
 // Routines for converting Words and Short Words to and from the
 // simulated machine's format of little endian.  These end up
 // being NOPs when the host machine is also little endian (DEC and Intel).
+
+int TranslationEntry::time = 0;
 
 unsigned int
 WordToHost(unsigned int word) {
@@ -235,7 +238,6 @@ Machine::Translate(int virtAddr, int* physAddr, int size, bool writing)
     }
     pageFrame = entry->physicalPage;
 
-
     // if the pageFrame is too big, there is something really wrong! 
     // An invalid translation was loaded into the page table or TLB. 
     if (pageFrame >= NumPhysPages) { 
@@ -245,6 +247,11 @@ Machine::Translate(int virtAddr, int* physAddr, int size, bool writing)
     entry->use = TRUE;		// set the use, dirty bits
     if (writing)
 	entry->dirty = TRUE;
+	entry->last_use= TranslationEntry::time;
+	TranslationEntry::time++;
+
+	AddrSpace::usedPhyPage[pageFrame] = true;
+	kernel->machine->last_use_frame = pageFrame;
     *physAddr = pageFrame * PageSize + offset;
     ASSERT((*physAddr >= 0) && ((*physAddr + size) <= MemorySize));
     DEBUG(dbgAddr, "phys addr = " << *physAddr);

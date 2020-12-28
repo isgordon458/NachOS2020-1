@@ -29,6 +29,7 @@
 
 class TranslationEntry {
   public:
+	static int time;
     unsigned int virtualPage;  	// The page number in virtual memory.
     unsigned int physicalPage;  // The page number in real memory (relative to the
 			//  start of "mainMemory"
@@ -42,6 +43,8 @@ class TranslationEntry {
 			// page is modified.
 
     unsigned int diskSector;
+
+	unsigned int last_use;
 };
 
 #endif
