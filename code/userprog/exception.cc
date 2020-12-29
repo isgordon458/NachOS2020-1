@@ -145,14 +145,17 @@ ExceptionHandler(ExceptionType which)
 		
 
 	case PageFaultException:
-	{
+	{			
+		
+		//cout << "Start" << endl;
+
 		int victim = vicSelctor->get();
 		unsigned int virPage = divRoundDown(kernel->machine->ReadRegister(BadVAddrReg), PageSize);
 		//writ to disk
 
 		if (AddrSpace::usedPhyPage[victim]) {
 
-			cout << "Swap out" << endl;
+			//cout << "Swap out" << endl;
 
 			kernel->synchDisk->WriteSector(AddrSpace::invertedPageTable[victim]->diskSector, &(kernel->machine->mainMemory[victim * PageSize]));
 
@@ -174,13 +177,15 @@ ExceptionHandler(ExceptionType which)
 		char *incomingPageData= new char[PageSize];
 		//cout<<"read sector: "<<kernel->machine->pageTable[virPage].diskSector<<endl;
 
-			cout << "Swap in" << endl;
+		//cout << "Swap in" << endl;
 
 		kernel->synchDisk->ReadSector(kernel->machine->pageTable[virPage].diskSector, incomingPageData);
 		memcpy(&(kernel->machine->mainMemory[victim*PageSize]), incomingPageData, PageSize);
 		
 		//restart
 		kernel->machine->WriteRegister(PCReg,kernel->machine->ReadRegister(PCReg) - 4);
+
+		//cout << "end" <<endl;
 
 		//kernel->currentThread->Sleep(false);
 		/*    Page Fault Exception    */

@@ -59,8 +59,12 @@ SynchDisk::~SynchDisk()
 void
 SynchDisk::ReadSector(int sectorNumber, char* data)
 {
+    //cout << "  Want read" << kernel->currentThread->getName() <<endl;
     lock->Acquire();			// only one disk I/O at a time
     disk->ReadRequest(sectorNumber, data);
+
+    //cout << "  Read Done, waiting for interrupt." << kernel->currentThread->getName() <<endl;
+
     semaphore->P();			// wait for interrupt
     lock->Release();
 }
@@ -77,8 +81,13 @@ SynchDisk::ReadSector(int sectorNumber, char* data)
 void
 SynchDisk::WriteSector(int sectorNumber, char* data)
 {
+    //cout << "  Want write" << kernel->currentThread->getName() <<endl;
+
     lock->Acquire();			// only one disk I/O at a time
     disk->WriteRequest(sectorNumber, data);
+
+    //cout << "  Write Done, waiting for interrupt." << kernel->currentThread->getName() <<endl;
+
     semaphore->P();			// wait for interrupt
     lock->Release();
 }
@@ -92,8 +101,10 @@ SynchDisk::WriteSector(int sectorNumber, char* data)
 void
 SynchDisk::CallBack()
 { 
-    if(!initialize)
+    if(!initialize){
+        //cout<<"w/r ready\n";
         semaphore->V();
+    }
     else
         initialize = false;
     //semaphore->V();

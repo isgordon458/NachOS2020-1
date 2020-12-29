@@ -138,6 +138,7 @@ UserProgKernel::Run()
 				t[j] = t[n];
 		}
 		kernel->interrupt->SetLevel(old);
+		
 		execfileNum = j;
 	}
 

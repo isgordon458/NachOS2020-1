@@ -145,23 +145,26 @@ AddrSpace::Load(char *fileName)
     //  number of frames which a thread can get
     int numFrame = divRoundDown(NumPhysPages ,kernel->getExecFileNum());
 
-    // //  bring some page to main memory
-    // for(unsigned int i=0,j=0; i<numFrame; i++){
-        
-    //     //  find next free frame
-    //     while (j < NumPhysPages && AddrSpace::usedPhyPage[j] == true)
-    //        j++;
-        
-    //     ASSERT(j!=NumPhysPages);
+    cout << "page:" << numPages <<endl;
 
-    //     AddrSpace::usedPhyPage[j] = true;
+    //  bring some page to main memory
+    for(unsigned int i=0,j=0; i<numFrame; i++){
         
-    //     pageTable[i].valid = true;
-    //     pageTable[i].physicalPage = j;
-    // }
+        //  find next free frame
+        while (j < NumPhysPages && AddrSpace::usedPhyPage[j] == true)
+           j++;
+        
+        ASSERT(j!=NumPhysPages);
 
+        AddrSpace::usedPhyPage[j] = true;
+        
+        pageTable[i].valid = true;
+        pageTable[i].physicalPage = j;
+    }
+    cout<<"1111\n";
     // copy the code and data segments into virtual memory(virMem)
     char *virMem = new char[size];
+    cout<<"2222222222\n";
 
 	if (noffH.code.size > 0) {
         DEBUG(dbgAddr, "Initializing code segment(to virtual memory)");
@@ -198,7 +201,7 @@ AddrSpace::Load(char *fileName)
 
     for(int i=0, j; i<numPages; i++) {    
         
-        cout <<endl << "(" << i << ","<< numPages << ")";
+        //cout <<endl << "(" << i << ","<< numPages << ")";
 
         j = kernel->synchDiskMnager->getEmptySector();
         this->pageTable[i].diskSector = j;
