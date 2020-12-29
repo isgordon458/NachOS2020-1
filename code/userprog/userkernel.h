@@ -55,6 +55,8 @@ public:
   }
 };
 
+enum {VicFIFO, VicLRU};
+
 class SynchDisk;
 class UserProgKernel : public ThreadedKernel {
   public:
@@ -80,6 +82,9 @@ class UserProgKernel : public ThreadedKernel {
 	Thread* t[10];
 	char*	execfile[10];
 	int	execfileNum;
+
+  public:
+  int vicStatus;
 
   public:
     int getExecFileNum() {return execfileNum;}

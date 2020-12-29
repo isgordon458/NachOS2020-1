@@ -26,12 +26,36 @@
 #include "syscall.h"
 #include "translate.h"
 
+//----------------------------------------------------------------------
+// ExceptionHandler
+// 	Entry point into the Nachos kernel.  Called when a user program
+//	is executing, and either does a syscall, or generates an addressing
+//	or arithmetic exception.
+//
+// 	For system calls, the following is the calling convention:
+//
+// 	system call code -- r2
+//		arg1 -- r4
+//		arg2 -- r5
+//		arg3 -- r6
+//		arg4 -- r7
+//
+//	The result of the system call, if any, must be put back into r2. 
+//
+// And don't forget to increment the pc before returning. (Or else you'll
+// loop making the same system call forever!
+//
+//	"which" is the kind of exception.  The list of possible exceptions 
+//	are in machine.h.
+//----------------------------------------------------------------------
+
+
 class VictimSelector{
 	int fifoCount=0;
 	//char st;
 public:	
-	//static enum status {FIFO, LRU};
 	VictimSelector(){}//st = FIFO;}
+  
 	int getFIFO(){
 		if (fifoCount == kernel->machine->last_use_frame) {
 			fifoCount = (fifoCount + 1) % NumPhysPages;
@@ -65,32 +89,22 @@ public:
 
 		return index;
 	}
+
+  int get(){
+
+	  
+
+    if(kernel->vicStatus == VicFIFO){
+      return getFIFO();
+	}
+    else if(kernel->vicStatus == VicLRU){
+    		cout << ".";
+  return getLRU();
+    }
+  }
 };
 
-static VictimSelector *vicSelctor = new VictimSelector;
-
-//----------------------------------------------------------------------
-// ExceptionHandler
-// 	Entry point into the Nachos kernel.  Called when a user program
-//	is executing, and either does a syscall, or generates an addressing
-//	or arithmetic exception.
-//
-// 	For system calls, the following is the calling convention:
-//
-// 	system call code -- r2
-//		arg1 -- r4
-//		arg2 -- r5
-//		arg3 -- r6
-//		arg4 -- r7
-//
-//	The result of the system call, if any, must be put back into r2. 
-//
-// And don't forget to increment the pc before returning. (Or else you'll
-// loop making the same system call forever!
-//
-//	"which" is the kind of exception.  The list of possible exceptions 
-//	are in machine.h.
-//----------------------------------------------------------------------
+VictimSelector *vicSelctor = new VictimSelector;
 
 void
 ExceptionHandler(ExceptionType which)
@@ -132,11 +146,14 @@ ExceptionHandler(ExceptionType which)
 
 	case PageFaultException:
 	{
-		int victim = vicSelctor->getLRU();
+		int victim = vicSelctor->get();
 		unsigned int virPage = divRoundDown(kernel->machine->ReadRegister(BadVAddrReg), PageSize);
 		//writ to disk
 
 		if (AddrSpace::usedPhyPage[victim]) {
+
+			cout << "Swap out" << endl;
+
 			kernel->synchDisk->WriteSector(AddrSpace::invertedPageTable[victim]->diskSector, &(kernel->machine->mainMemory[victim * PageSize]));
 
 		//memcpy( &(kernel->currentThread->space->virMem[virPage*PageSize]), &(kernel->machine->mainMemory[victim*PageSize]), PageSize);
@@ -156,6 +173,9 @@ ExceptionHandler(ExceptionType which)
 		//read from disk
 		char *incomingPageData= new char[PageSize];
 		//cout<<"read sector: "<<kernel->machine->pageTable[virPage].diskSector<<endl;
+
+			cout << "Swap in" << endl;
+
 		kernel->synchDisk->ReadSector(kernel->machine->pageTable[virPage].diskSector, incomingPageData);
 		memcpy(&(kernel->machine->mainMemory[victim*PageSize]), incomingPageData, PageSize);
 		
