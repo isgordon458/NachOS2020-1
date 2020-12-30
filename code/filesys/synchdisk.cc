@@ -109,3 +109,15 @@ SynchDisk::CallBack()
         initialize = false;
     //semaphore->V();
 }
+
+void SynchDisk::IntializeSector(int sectorNumber, char *data) 
+{
+    initialize = true;
+    disk->WriteRequest(sectorNumber, data);
+}
+
+void SynchDisk::ReadIntializeSector(int sectorNumber, char *data) 
+{
+    initialize = true;
+    disk->ReadRequest(sectorNumber, data);
+}

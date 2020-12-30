@@ -115,10 +115,12 @@ UserProgKernel::Run()
 	// 	cout << "Thread " << execfile[n] << " is executing." << endl;
 	// }
 
-
+//	load all thread into storage(memory, disk)
 	{
+		//	total threads that loads successfully
 		int j = 0;
 	
+		//	disable the interrpupt to operate disk successfully.
 		IntStatus old = kernel->interrupt->SetLevel(IntOff);
 
 		for (int n = 1; n <= execfileNum; n++)
@@ -126,8 +128,10 @@ UserProgKernel::Run()
 			t[n] = new Thread(execfile[n]);
 			t[n]->space = new AddrSpace();
 
+			//	return false when load failure
 			if (t[n]->space->LoadThread(t[n]->getName()) == false)
 			{
+				delete t[n]->space;
 				delete t[n];
 				continue;
 			}
@@ -137,6 +141,8 @@ UserProgKernel::Run()
 			if (n != j)
 				t[j] = t[n];
 		}
+
+		//	recover the interrupt state.
 		kernel->interrupt->SetLevel(old);
 		
 		execfileNum = j;

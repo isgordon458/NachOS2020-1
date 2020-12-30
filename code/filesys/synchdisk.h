@@ -49,17 +49,8 @@ class SynchDisk : public CallBackObj {
     //  similar to WriteSector, but won't suspend any thread
     //  used at the load time(addrSpace::Load())
     //  Note: it can be used when the user thread is loaded ONLY.
-    void IntializeSector(int sectorNumber, char *data) 
-    {
-      initialize = true;
-      disk->WriteRequest(sectorNumber, data);
-    }
-
-    void ReadIntializeSector(int sectorNumber, char *data) 
-    {
-      initialize = true;
-      disk->ReadRequest(sectorNumber, data);
-    }
+    void IntializeSector(int sectorNumber, char *data);
+    void ReadIntializeSector(int sectorNumber, char *data);
 
   private:
     Disk *disk;		  		// Raw disk device

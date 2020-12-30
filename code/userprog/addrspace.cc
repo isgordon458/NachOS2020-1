@@ -121,52 +121,15 @@ AddrSpace::Load(char *fileName)
 			+ UserStackSize;	// we need to increase the size
 						// to leave room for the stack
     numPages = divRoundUp(size, PageSize);
-//	cout << "number of pages of " << fileName<< " is "<<numPages<<endl;
     size = numPages * PageSize;
+    cout << "number of pages of " << fileName<< " is "<<numPages<<endl;
 
-    //  duplicate
-    //numPages = divRoundUp(size,PageSize);
+//  read file to VirMem
 
-//  initialize page table
-
-    for(unsigned int i=0; i<numPages; i++){
-
-        pageTable[i].virtualPage = i;
-        pageTable[i].valid = false;
-        pageTable[i].use = false;
-        pageTable[i].dirty = false;
-        pageTable[i].readOnly = false;
-    }
-
-    //  duplicate
-    //size = numPages * PageSize;
-
-
-    //  number of frames which a thread can get
-    int numFrame = divRoundDown(NumPhysPages ,kernel->getExecFileNum());
-
-    cout << "page:" << numPages <<endl;
-
-    //  bring some page to main memory
-    for(unsigned int i=0,j=0; i<numFrame; i++){
-        
-        //  find next free frame
-        while (j < NumPhysPages && AddrSpace::usedPhyPage[j] == true)
-           j++;
-        
-        ASSERT(j!=NumPhysPages);
-
-        AddrSpace::usedPhyPage[j] = true;
-        
-        pageTable[i].valid = true;
-        pageTable[i].physicalPage = j;
-    }
-    cout<<"1111\n";
     // copy the code and data segments into virtual memory(virMem)
     char *virMem = new char[size];
-    cout<<"2222222222\n";
 
-	if (noffH.code.size > 0) {
+    if (noffH.code.size > 0) {
         DEBUG(dbgAddr, "Initializing code segment(to virtual memory)");
 	    DEBUG(dbgAddr, noffH.code.virtualAddr << ", " << noffH.code.size);
         	executable->ReadAt(
@@ -183,17 +146,41 @@ AddrSpace::Load(char *fileName)
             noffH.initData.inFileAddr);
     }
 
-//  then, copy some virtual pages to main memory
+//  initialize page table
 
-    for(int i=0; i< numPages; i++) {
-        if(pageTable[i].valid)
-            memcpy(&(kernel->machine->mainMemory[pageTable[i].physicalPage * PageSize]),
-                &(virMem[i * PageSize]), 
-                PageSize);
+    for(unsigned int i=0; i<numPages; i++){
+
+        pageTable[i].virtualPage = i;
+        pageTable[i].valid = false;
+        pageTable[i].use = false;
+        pageTable[i].dirty = false;
+        pageTable[i].readOnly = false;
     }
 
-    ASSERT(kernel->synchDiskMnager->numEmptySec() >= numPages);
+//  choose some page to load to main memory
 
+    //  number of frames which a thread can get
+    int numFrame = divRoundDown(NumPhysPages ,kernel->getExecFileNum());
+
+    //  bring some page to main memory
+    for(unsigned int i=0,j=0; i<numFrame; i++){
+        
+        //  find next free frame
+        while (j < NumPhysPages && AddrSpace::usedPhyPage[j] == true)
+           j++;
+        
+        ASSERT(j!=NumPhysPages);
+
+        AddrSpace::usedPhyPage[j] = true;
+        AddrSpace::invertedPageTable[j] = &(this->pageTable[i]);
+
+        pageTable[i].valid = true;
+        pageTable[i].physicalPage = j;
+
+        memcpy(&(kernel->machine->mainMemory[pageTable[i].physicalPage * PageSize]),
+            &(virMem[i * PageSize]), 
+            PageSize);
+    }
 
 //  copy entire program to disk
 
@@ -203,17 +190,17 @@ AddrSpace::Load(char *fileName)
         
         //cout <<endl << "(" << i << ","<< numPages << ")";
 
+        //  get a empty sector and use.
         j = kernel->synchDiskMnager->getEmptySector();
         this->pageTable[i].diskSector = j;
+
+        //  write to the disk without being interrupted by others.
         kernel->synchDisk->IntializeSector(j, &(virMem[i*PageSize]));
         while(kernel->interrupt->AnyFutureInterrupts())
             kernel->interrupt->Idle();
-
-        /*->synchDisk->ReadIntializeSector(j, &(virMem[i*PageSize]));
-        while(kernel->interrupt->AnyFutureInterrupts())
-            kernel->interrupt->Idle();*/
     }
 
+    //free(virMem);
     delete[] virMem;
 
 

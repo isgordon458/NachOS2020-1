@@ -1,241 +1,420 @@
 Total threads number is 2
-
-(0,26)
-(1,26)
-(2,26)
-(3,26)
-(4,26)
-(5,26)
-(6,26)
-(7,26)
-(8,26)
-(9,26)
-(10,26)
-(11,26)
-(12,26)
-(13,26)
-(14,26)
-(15,26)
-(16,26)
-(17,26)
-(18,26)
-(19,26)
-(20,26)
-(21,26)
-(22,26)
-(23,26)
-(24,26)
-(25,26)
-(0,26)
-(1,26)
-(2,26)
-(3,26)
-(4,26)
-(5,26)
-(6,26)
-(7,26)
-(8,26)
-(9,26)
-(10,26)
-(11,26)
-(12,26)
-(13,26)
-(14,26)
-(15,26)
-(16,26)
-(17,26)
-(18,26)
-(19,26)
-(20,26)
-(21,26)
-(22,26)
-(23,26)
-(24,26)
-(25,26)Total runnable threads number is 2
+number of pages of ./test/test_bigArray1 is 26
+1111
+2222222222
+number of pages of ./test/test_bigArray is 58
+1111
+2222222222
+Total runnable threads number is 2
+Thread ./test/test_bigArray1 is executing.
 Thread ./test/test_bigArray is executing.
-Thread ./test/test_bigArray is executing.
-Start
-Swap in
-Start
-Swap in
-end
-Start
-Swap in
-end
-Start
-Swap in
-end
-Start
-Swap in
-end
-Start
-Swap in
-end
+Starting program in thread: ./test/test_bigArray1, at time: 90040
+Starting program in thread: ./test/test_bigArray, at time: 90060
+At PC = -4	JAL 56
+At PC = 4	SLL r0,r0,0
+At PC = 220	ADDIU r29,r29,-32
+At PC = 228	SW r31,28(r29)
+At PC = 232	SW r30,24(r29)
+At PC = 236	JAL 52
+At PC = 240	ADDU r30,r29,r0
+At PC = 208	JR r0,r31
+At PC = 212	SLL r0,r0,0
+At PC = 244	SW r0,16(r30)
+At PC = 248	ADDIU r2,r0,1
+At PC = 252	LUI r1,0
+At PC = 252	SB r2,1818(r1)
+At PC = 260	LUI r2,0
+At PC = 264	LB r2,1818(r2)
+At PC = 268	SLL r0,r0,0
+At PC = 272	SW r2,16(r30)
+At PC = 276	LW r4,16(r30)
+At PC = 280	JAL 48
+At PC = 284	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:1
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 288	ADDIU r2,r0,2
+At PC = 292	LUI r1,0
+At PC = 296	SB r2,2182(r1)
+At PC = 300	LUI r2,0
+At PC = 304	LB r2,2182(r2)
+At PC = 308	SLL r0,r0,0
+At PC = 312	SW r2,16(r30)
+At PC = 316	LW r4,16(r30)
+At PC = 320	JAL 48
+At PC = 324	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:2
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 328	ADDIU r2,r0,3
+At PC = 332	LUI r1,0
+At PC = 336	SB r2,1338(r1)
+At PC = 340	LUI r2,0
+At PC = 344	LB r2,1338(r2)
+At PC = 348	SLL r0,r0,0
+At PC = 352	SW r2,16(r30)
+At PC = 356	LW r4,16(r30)
+At PC = 360	JAL 48
+At PC = 364	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:3
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 368	ADDIU r2,r0,4
+At PC = 372	LUI r1,0
+At PC = 376	SB r2,1383(r1)
+At PC = 380	LUI r2,0
+At PC = 380	LB r2,1383(r2)
+At PC = 388	SLL r0,r0,0
+At PC = 392	SW r2,16(r30)
+At PC = 396	LW r4,16(r30)
+At PC = 400	JAL 48
+At PC = 404	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:4
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 408	ADDIU r2,r0,5
+At PC = 412	LUI r1,0
+At PC = 416	SB r2,1651(r1)
+At PC = 420	LUI r2,0
+At PC = 424	LB r2,1651(r2)
+At PC = 428	SLL r0,r0,0
+At PC = 432	SW r2,16(r30)
+At PC = 436	LW r4,16(r30)
+At PC = 440	JAL 48
+At PC = 444	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:5
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 448	ADDIU r2,r0,6
+At PC = 452	LUI r1,0
+At PC = 456	SB r2,1349(r1)
+At PC = 460	LUI r2,0
+At PC = 464	LB r2,1349(r2)
+At PC = 468	SLL r0,r0,0
+At PC = 472	SW r2,16(r30)
+At PC = 476	LW r4,16(r30)
+At PC = 480	JAL 48
+At PC = 484	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:6
-Start
-Swap in
-end
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 488	ADDIU r2,r0,7
+At PC = 492	LUI r1,0
+At PC = 496	SB r2,1760(r1)
+At PC = 500	LUI r2,0
+At PC = 504	LB r2,1760(r2)
+At PC = 508	SLL r0,r0,0
+At PC = 508	SW r2,16(r30)
+At PC = 516	LW r4,16(r30)
+At PC = 520	JAL 48
+At PC = 524	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:7
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 528	ADDIU r2,r0,8
+At PC = 532	LUI r1,0
+At PC = 536	SB r2,2055(r1)
+At PC = 540	LUI r2,0
+At PC = 544	LB r2,2055(r2)
+At PC = 548	SLL r0,r0,0
+At PC = 552	SW r2,16(r30)
+At PC = 556	LW r4,16(r30)
+At PC = 560	JAL 48
+At PC = 564	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:8
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 568	ADDIU r2,r0,9
+At PC = 572	LUI r1,0
+At PC = 576	SB r2,1568(r1)
+At PC = 580	LUI r2,0
+At PC = 584	LB r2,1568(r2)
+At PC = 588	SLL r0,r0,0
+At PC = 592	SW r2,16(r30)
+At PC = 596	LW r4,16(r30)
+At PC = 600	JAL 48
+At PC = 604	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:9
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 608	ADDIU r2,r0,10
+At PC = 612	LUI r1,0
+At PC = 616	SB r2,2267(r1)
+At PC = 620	LUI r2,0
+At PC = 624	LB r2,2267(r2)
+At PC = 628	SLL r0,r0,0
+At PC = 632	SW r2,16(r30)
+At PC = 636	LW r4,16(r30)
+At PC = 636	JAL 48
+At PC = 644	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:10
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 648	ADDIU r2,r0,11
+At PC = 652	LUI r1,0
+At PC = 656	SB r2,2180(r1)
+At PC = 660	LUI r2,0
+At PC = 664	LB r2,2180(r2)
+At PC = 668	SLL r0,r0,0
+At PC = 672	SW r2,16(r30)
+At PC = 676	LW r4,16(r30)
+At PC = 680	JAL 48
+At PC = 684	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:11
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 688	ADDIU r2,r0,12
+At PC = 692	LUI r1,0
+At PC = 696	SB r2,1320(r1)
+At PC = 700	LUI r2,0
+At PC = 704	LB r2,1320(r2)
+At PC = 708	SLL r0,r0,0
+At PC = 712	SW r2,16(r30)
+At PC = 716	LW r4,16(r30)
+At PC = 720	JAL 48
+At PC = 724	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:12
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 728	ADDIU r2,r0,13
+At PC = 732	LUI r1,0
+At PC = 736	SB r2,1746(r1)
+At PC = 740	LUI r2,0
+At PC = 744	LB r2,1746(r2)
+At PC = 748	SLL r0,r0,0
+At PC = 752	SW r2,16(r30)
+At PC = 756	LW r4,16(r30)
+At PC = 760	JAL 48
+At PC = 764	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:13
-Start
-Swap in
-end
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 764	ADDIU r2,r0,14
+At PC = 772	LUI r1,0
+At PC = 776	SB r2,1993(r1)
+At PC = 780	LUI r2,0
+At PC = 784	LB r2,1993(r2)
+At PC = 788	SLL r0,r0,0
+At PC = 792	SW r2,16(r30)
+At PC = 796	LW r4,16(r30)
+At PC = 800	JAL 48
+At PC = 804	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:14
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 808	ADDIU r2,r0,15
+At PC = 812	LUI r1,0
+At PC = 816	SB r2,2290(r1)
+At PC = 820	LUI r2,0
+At PC = 824	LB r2,2290(r2)
+At PC = 828	SLL r0,r0,0
+At PC = 832	SW r2,16(r30)
+At PC = 836	LW r4,16(r30)
+At PC = 840	JAL 48
+At PC = 844	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:15
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 848	ADDIU r2,r0,16
+At PC = 852	LUI r1,0
+At PC = 856	SB r2,1914(r1)
+At PC = 860	LUI r2,0
+At PC = 864	LB r2,1914(r2)
+At PC = 868	SLL r0,r0,0
+At PC = 872	SW r2,16(r30)
+At PC = 876	LW r4,16(r30)
+At PC = 880	JAL 48
+At PC = 884	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:16
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 888	ADDIU r2,r0,17
+At PC = 892	LUI r1,0
+At PC = 892	SB r2,1862(r1)
+At PC = 900	LUI r2,0
+At PC = 904	LB r2,1862(r2)
+At PC = 908	SLL r0,r0,0
+At PC = 912	SW r2,16(r30)
+At PC = 916	LW r4,16(r30)
+At PC = 920	JAL 48
+At PC = 924	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:17
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 928	ADDIU r2,r0,18
+At PC = 932	LUI r1,0
+At PC = 936	SB r2,1379(r1)
+At PC = 940	LUI r2,0
+At PC = 944	LB r2,1379(r2)
+At PC = 948	SLL r0,r0,0
+At PC = 952	SW r2,16(r30)
+At PC = 956	LW r4,16(r30)
+At PC = 960	JAL 48
+At PC = 964	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:18
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 968	ADDIU r2,r0,19
+At PC = 972	LUI r1,0
+At PC = 976	SB r2,1916(r1)
+At PC = 980	LUI r2,0
+At PC = 984	LB r2,1916(r2)
+At PC = 988	SLL r0,r0,0
+At PC = 992	SW r2,16(r30)
+At PC = 996	LW r4,16(r30)
+At PC = 1000	JAL 48
+At PC = 1004	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:19
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 1008	ADDIU r2,r0,20
+At PC = 1012	LUI r1,0
+At PC = 1016	SB r2,1300(r1)
+At PC = 1020	LUI r2,0
+At PC = 1020	LB r2,1300(r2)
+At PC = 1028	SLL r0,r0,0
+At PC = 1032	SW r2,16(r30)
+At PC = 1036	LW r4,16(r30)
+At PC = 1040	JAL 48
+At PC = 1044	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:20
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 1048	ADDIU r2,r0,21
+At PC = 1052	LUI r1,0
+At PC = 1056	SB r2,1296(r1)
+At PC = 1060	LUI r2,0
+At PC = 1064	LB r2,1296(r2)
+At PC = 1068	SLL r0,r0,0
+At PC = 1072	SW r2,16(r30)
+At PC = 1076	LW r4,16(r30)
+At PC = 1080	JAL 48
+At PC = 1084	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:21
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 1088	ADDIU r2,r0,22
+At PC = 1092	LUI r1,0
+At PC = 1096	SB r2,1411(r1)
+At PC = 1100	LUI r2,0
+At PC = 1104	LB r2,1411(r2)
+At PC = 1108	SLL r0,r0,0
+At PC = 1112	SW r2,16(r30)
+At PC = 1116	LW r4,16(r30)
+At PC = 1120	JAL 48
+At PC = 1124	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:22
-Start
-Swap in
-end
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 1128	ADDIU r2,r0,23
+At PC = 1132	LUI r1,0
+At PC = 1136	SB r2,1764(r1)
+At PC = 1140	LUI r2,0
+At PC = 1144	LB r2,1764(r2)
+At PC = 1148	SLL r0,r0,0
+At PC = 1148	SW r2,16(r30)
+At PC = 1156	LW r4,16(r30)
+At PC = 1160	JAL 48
+At PC = 1164	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:23
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 1168	ADDIU r2,r0,24
+At PC = 1172	LUI r1,0
+At PC = 1176	SB r2,1729(r1)
+At PC = 1180	LUI r2,0
+At PC = 1184	LB r2,1729(r2)
+At PC = 1188	SLL r0,r0,0
+At PC = 1192	SW r2,16(r30)
+At PC = 1196	LW r4,16(r30)
+At PC = 1200	JAL 48
+At PC = 1204	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:24
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 1208	ADDIU r2,r0,25
+At PC = 1212	LUI r1,0
+At PC = 1216	SB r2,1688(r1)
+At PC = 1220	LUI r2,0
+At PC = 1224	LB r2,1688(r2)
+At PC = 1228	SLL r0,r0,0
+At PC = 1232	SW r2,16(r30)
+At PC = 1236	LW r4,16(r30)
+At PC = 1240	JAL 48
+At PC = 1244	SLL r0,r0,0
+At PC = 192	ADDIU r2,r0,11
+At PC = 196	SYSCALL
 Print integer:25
+At PC = 200	JR r0,r31
+At PC = 204	SLL r0,r0,0
+At PC = 1248	ADDU r29,r30,r0
+At PC = 1252	LW r31,28(r29)
+At PC = 1256	LW r30,24(r29)
+At PC = 1260	JR r0,r31
+At PC = 1264	ADDIU r29,r29,32
+At PC = 8	JAL 8
+At PC = 12	ADDU r4,r0,r0
+At PC = 32	ADDIU r2,r0,1
+At PC = 36	SYSCALL
 return value:0
-end
-Start
-Swap in
-end
-Start
-Swap in
-end
-Start
-Swap in
-end
-Start
-Swap in
-end
-Print integer:1
-Start
-Swap in
-end
-Print integer:2
-Start
-Swap in
-end
-Print integer:3
-Start
-Swap in
-end
-Print integer:4
-Start
-Swap in
-end
-Print integer:5
-Print integer:6
-Start
-Swap in
-end
-Start
-Swap in
-end
-Print integer:7
-Start
-Swap in
-end
-Print integer:8
-Print integer:9
-Start
-Swap in
-end
-Print integer:10
-Print integer:11
-Print integer:12
-Print integer:13
-Start
-Swap out
-Swap in
-end
-Start
-Swap out
-Swap in
-end
-Print integer:14
-Print integer:15
-Print integer:16
-Start
-Swap out
-Swap in
-end
-Print integer:17
-Print integer:18
-Print integer:19
-Start
-Swap out
-Swap in
-end
-Print integer:20
-Print integer:21
-Start
-Swap out
-Swap in
-end
-Print integer:22
-Start
-Swap out
-Swap in
-end
-Print integer:23
-Print integer:24
-Print integer:25
-Start
-Swap out
-Swap in
-end
-return value:0
-No threads ready or runnable, and no pending interrupts.
-Assuming the program completed.
+At PC = -4	SLL r0,r0,0
+At PC = 4	SLL r0,r0,0
+At PC = 8	JAL 8
+At PC = 12	ADDU r0,r0,r0
+At PC = 32	SUB r0,r0,r0
+At PC = 36	SYSCALL
 Machine halting!
 
-Ticks: total 285523, idle 283347, system 1440, user 736
-Disk I/O: reads 39, writes 59
+Ticks: total 112787, idle 111754, system 660, user 373
+Disk I/O: reads 20, writes 84
 Console I/O: reads 0, writes 0
 Paging: faults 0
 Network I/O: packets received 0, sent 0
