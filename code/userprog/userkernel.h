@@ -47,7 +47,7 @@ class UserProgKernel : public ThreadedKernel {
 	int	execfileNum;
 
   public:
-  int vicStatus;
+  int vicStatus=VicLRU;
 
   public:
     int getExecFileNum() {return execfileNum;}

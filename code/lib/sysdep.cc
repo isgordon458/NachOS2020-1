@@ -33,8 +33,6 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#include <errno.h>
-
 #ifdef LINUX	 // at this point, linux doesn't support mprotect 
 #define NO_MPROT     
 #endif
