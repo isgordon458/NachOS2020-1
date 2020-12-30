@@ -92,15 +92,16 @@ public:
 
   int get(){
 
-	  
-
-    if(kernel->vicStatus == VicFIFO){
-      return getFIFO();
-	}
-    else if(kernel->vicStatus == VicLRU){
-    		cout << ".";
-  return getLRU();
-    }
+	  if (kernel->vicStatus == VicFIFO)
+	  {
+		  cout << "FIFO" << endl;
+		  return getFIFO();
+	  }
+	  else if (kernel->vicStatus == VicLRU)
+	  {
+		  cout << "LRU" << endl;
+		  return getLRU();
+	  }
   }
 };
 
@@ -152,10 +153,10 @@ ExceptionHandler(ExceptionType which)
 		int victim = vicSelctor->get();
 		unsigned int virPage = divRoundDown(kernel->machine->ReadRegister(BadVAddrReg), PageSize);
 		//writ to disk
-
+		cout << "Page to swap:" << victim << endl;
 		if (AddrSpace::usedPhyPage[victim]) {
 
-			//cout << "Swap out" << endl;
+			cout << "Swap out:";
 
 			kernel->synchDisk->WriteSector(AddrSpace::invertedPageTable[victim]->diskSector, &(kernel->machine->mainMemory[victim * PageSize]));
 

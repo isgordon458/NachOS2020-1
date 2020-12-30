@@ -17,46 +17,9 @@
 #include "machine.h"
 #include "synchdisk.h"
 
-class SynchDiskManager{
-  bool bitMap[NumSectors];
-  int nextEmptySector = 0;
-  int emptySector = NumSectors;
-
-public:
-  SynchDiskManager(){
-    for(int i=0; i<NumSectors; i++) bitMap[i] = false;
-  }
-
-  int numEmptySec() {return emptySector;}
-
-  int getEmptySector() {
-
-    emptySector--;
-    ASSERT(emptySector >= 0);
-
-    int searchEnd = nextEmptySector;
-    do{
-      if(bitMap[nextEmptySector]==false) {
-        bitMap[nextEmptySector]=true;
-        return nextEmptySector;
-      }else
-        nextEmptySector = (nextEmptySector+1)%NumSectors;
-      
-    }while(nextEmptySector!=searchEnd);
-
-    cout << "Error:" << endl
-         << "Disk is full" << endl;
-    
-    ASSERTNOTREACHED();
-  }
-  void setEmptySector(int sector) {
-    ASSERT(0<=sector && sector < NumSectors);
-    bitMap[sector] = false;
-  }
-};
-
 enum {VicFIFO, VicLRU};
 
+class SynchDiskManager;
 class SynchDisk;
 class UserProgKernel : public ThreadedKernel {
   public:

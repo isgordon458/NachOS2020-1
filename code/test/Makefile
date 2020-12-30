@@ -35,7 +35,7 @@ CPP = /lib/cpp
 INCDIR =-I../userprog -I../threads -I../lib
 CFLAGS = -G 0 -c $(INCDIR)
 
-all: halt shell matmult sort test1 test2 generate_FILENAME
+all: halt shell matmult sort test1 test2 test_bigArray
 
 start.o: start.s ../userprog/syscall.h
 	$(CPP) $(CPPFLAGS) start.s > strt.s
@@ -73,9 +73,9 @@ test2: test2.o start.o
 	$(LD) $(LDFLAGS) start.o test2.o -o test2.coff
 	../bin/coff2noff test2.coff test2
 
-generate_FILENAME: $(FILENAME).o start.o
-	$(LD) $(LDFLAGS) start.o $(FILENAME).o -o $(FILENAME).coff
-	../bin/coff2noff $(FILENAME).coff $(FILENAME)
+test_bigArray: $(FILENAME).o start.o
+	$(LD) $(LDFLAGS) start.o test_bigArray.o -o test_bigArray.coff
+	../bin/coff2noff test_bigArray.coff test_bigArray
 
 #test_bigArray.o: 
 #	$(CC) $(CFLAGS) -c test_bigArray.c
